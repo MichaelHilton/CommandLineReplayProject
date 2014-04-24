@@ -1,5 +1,8 @@
 package edu.oregonstate.edu;
 
+
+import org.apache.commons.codec.binary.Base64;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -23,9 +26,11 @@ public class Replay {
 
     protected List<OpenFile> allOpenFiles;
     String replayDir = "";
+    private final JSONArray intermediateJSON;
 
     public Replay() {
-        this.allOpenFiles = new ArrayList<OpenFile>();  ;
+        this.allOpenFiles = new ArrayList<OpenFile>();
+        intermediateJSON = new JSONArray();
     }
 
     String insertString(String s, String c, int i) {
@@ -49,6 +54,7 @@ public class Replay {
     protected List<String> getFileContentsList(String filename) {
         Path filePath = Paths.get(filename);
         List<String> allLines = null;
+
         try {
             allLines = Files.readAllLines(filePath, Charset.defaultCharset());
         } catch (IOException ex) {
@@ -86,6 +92,9 @@ public class Replay {
 
         }
 
+       // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
+        writeContentsToFile(replayDir + "/intermediateJSON.txt",intermediateJSON.toString());
+        //System.out.println(intermediateJSON);
     }
 
     public JSONObject parseJSONString(String jsonString) {
@@ -108,7 +117,8 @@ public class Replay {
                 break;
             case "textChange":
                 eventDispatched = "textChange";
-                textChange(jObj);
+                String currText = textChange(jObj);
+                jObj.put("currText",currText);
                 break;
             case "testRun":
                 System.out.println("testRun");
@@ -116,15 +126,73 @@ public class Replay {
             case "FileInit":
                 System.out.println("testRun");
                 break;
+            case "resourceAdded":
+                System.out.println("resourceAdded");
+                addResource(jObj);
+                break;
+            case "resourceRemoved":
+                System.out.println("resourceAdded");
+                removeResource(jObj);
+                break;
+            case "refresh":
+                System.out.println("resourceAdded");
+                refresh(jObj);
+                break;
+            case "refactoringLaunch":
+                System.out.println("refactoringStart");
+                break;
+            case "refactoringEnd":
+                System.out.println("refactoringEnd");
+                break;
+            case "normalLaunch":
+                System.out.println("NormalLaunch");
+                break;
+            case "launchEnd":
+                System.out.println("launchEnd");
+                break;
+            case "snapshot":
+                System.out.println("snapshot");
+                break;
+            case "fileSave":
+                System.out.println("fileSave");
+                break;
             default:
                 throw new RuntimeException("Unknown eventType");
-
         }
+
+        intermediateJSON.add(jObj);
+
 
         return eventDispatched;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    protected void textChange(JSONObject jObj) {
+    private void removeResource(JSONObject jObj) {
+        closeFile(jObj.get("entityAddress").toString());
+
+    }
+
+    private void refresh(JSONObject jObj) {
+        System.out.println(jObj);
+        byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+        System.out.println(new String(b));
+        setFileContents(jObj.get("entityAddress").toString(),new String(b));
+
+    }
+
+    private void addResource(JSONObject jObj) {
+        System.out.println(jObj);
+        byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+        System.out.println(new String(b));
+
+        String fileName = jObj.get("entityAddress").toString();
+        fileName = replayDir + "/" + fileName;
+        OpenFile of = new OpenFile(fileName,new String(b));
+        allOpenFiles.add(of);
+
+    }
+
+
+    protected String textChange(JSONObject jObj) {
         String fileName = getFileNameFromJSON(jObj);
         openFile(fileName);
         String changeOrigin = getChangeOrigin(jObj);
@@ -141,6 +209,7 @@ public class Replay {
         }
 
         setFileContents(fileName,currFileContents) ;
+        return currFileContents;
 
     }
 
@@ -187,8 +256,17 @@ public class Replay {
             }
         }
         try {
+
+//            byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+//            System.out.println(new String(b));
+//            setFileContents(jObj.get("entityAddress").toString(),new String(b));
+
+
+
             byte[] encoded = Files.readAllBytes(Paths.get(fileName));
+            byte[] decoded = Base64.decodeBase64(encoded);
             fileContents = Charset.defaultCharset().decode(ByteBuffer.wrap(encoded)).toString();
+            //fileContents = new String(decoded);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -256,7 +334,12 @@ public class Replay {
 
     protected void writeContentsToFile(String fileName, String currFileContents) {
         try {
-            Files.write(Paths.get(fileName), currFileContents.getBytes(),StandardOpenOption.CREATE);
+            //Path path = Paths.get(replayDir.concat(fileName));
+            Path path = Paths.get(fileName);
+            Path parentDir = path.getParent();
+            if (!Files.exists(parentDir))
+                Files.createDirectories(parentDir);
+            Files.write(path, currFileContents.getBytes(),StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
