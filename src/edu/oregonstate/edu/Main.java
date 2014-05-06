@@ -10,6 +10,9 @@ public class Main {
         }
         Replay r = new Replay();
         r.setDir(args[2]);
+        if(args[1].toString().equals("NONE")) {
+            System.out.println("NO ZIP");
+        }
         r.unzipInitialState(args[1]);
         r.replayFile(args[0]);
         r.closeAllFiles();

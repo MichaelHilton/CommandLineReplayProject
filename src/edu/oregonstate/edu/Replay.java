@@ -73,9 +73,9 @@ public class Replay {
     }
 
     public void replayFile(String fileName) {
-        if(replayDir.length()>0){
-            fileName = replayDir + "/"+ fileName;
-        }
+//        if(replayDir.length()>0){
+//            fileName = replayDir + "/"+ fileName;
+//        }
         List<String> replayFileContents = getFileContentsList(fileName);
         // iterator loop
         //System.out.println("#1 iterator");
@@ -93,7 +93,7 @@ public class Replay {
         }
 
        // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
-        writeContentsToFile(replayDir + "/intermediateJSON.txt",intermediateJSON.toString());
+        writeContentsToFile(replayDir + "/intermediateJSON.json",intermediateJSON.toString());
         //System.out.println(intermediateJSON);
     }
 
