@@ -156,6 +156,9 @@ public class Replay {
             case "fileSave":
                 System.out.println("fileSave");
                 break;
+            case "copy":
+                System.out.println("copy");
+                break;
             default:
                 throw new RuntimeException("Unknown eventType");
         }
