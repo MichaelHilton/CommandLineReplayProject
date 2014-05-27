@@ -181,9 +181,19 @@ public class Replay {
 
     private void refresh(JSONObject jObj) {
         System.out.println(jObj);
-        byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
-        System.out.println(new String(b));
-        setFileContents(jObj.get("entityAddress").toString(),new String(b));
+        //byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+        //System.out.println(new String(b));
+        //setFileContents(jObj.get("entityAddress").toString(),new String(b));
+
+        String fileName = jObj.get("entityAddress").toString();
+        if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
+            byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+            System.out.println(new String(b));
+            setFileContents(jObj.get("entityAddress").toString(),new String(b));
+        }else{
+            setFileContents(jObj.get("entityAddress").toString(),jObj.get("text").toString());
+        }
+
 
     }
 
