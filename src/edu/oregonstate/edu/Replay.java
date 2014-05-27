@@ -2,6 +2,8 @@ package edu.oregonstate.edu;
 
 
 import org.apache.commons.codec.binary.Base64;
+
+import org.apache.commons.io.FilenameUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -23,6 +25,9 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Replay {
+
+
+    public static final List<String> knownTextFiles = Arrays.asList(new String[]{"txt", "java", "xml", "mf", "c", "cpp", "c", "h"});
 
     protected List<OpenFile> allOpenFiles;
     String replayDir = "";
@@ -184,13 +189,21 @@ public class Replay {
 
     private void addResource(JSONObject jObj) {
         System.out.println(jObj);
-        byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
-        System.out.println(new String(b));
+
 
         String fileName = jObj.get("entityAddress").toString();
+
         fileName = replayDir + "/" + fileName;
-        OpenFile of = new OpenFile(fileName,new String(b));
-        allOpenFiles.add(of);
+
+        if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
+            byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
+            System.out.println(new String(b));
+            OpenFile of = new OpenFile(fileName,new String(b));
+            allOpenFiles.add(of);
+        }else{
+            OpenFile of = new OpenFile(fileName,jObj.get("text").toString());
+            allOpenFiles.add(of);
+        }
 
     }
 
