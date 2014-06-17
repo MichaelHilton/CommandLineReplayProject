@@ -203,6 +203,9 @@ public class Replay {
 
         String fileName = jObj.get("entityAddress").toString();
 
+        if (fileName.charAt(0) == '/') {
+            fileName = fileName.substring(1);
+        }
         fileName = replayDir + "/" + fileName;
 
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
