@@ -1,11 +1,10 @@
 #CommandLineReplay Ignore Files
-.idea/
-*.iml
 out/
 .DS_Store
 libs/commons-codec-1.9/apidocs/
 libs/commons-codec-1.9/*.txt
 .cope/
+*.swp
 
 #Ignore Local Json Folder
 JsonResults/
