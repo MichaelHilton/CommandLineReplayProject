@@ -249,7 +249,7 @@ public class Replay {
 
     private void setFileContents(String fileName, String newFileContents) {
         for (int i = 0; i < allOpenFiles.size(); i++) {
-            if(fileName.equals(allOpenFiles.get(i).getFileName())){
+            if(allOpenFiles.get(i).getFileName().contains(fileName)){
                 OpenFile of = allOpenFiles.get(i);
                 of.setContents(newFileContents);
                 allOpenFiles.set(i,of);
