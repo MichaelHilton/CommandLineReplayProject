@@ -13,6 +13,8 @@
     <orderEntry type="library" name="diffutils-1.2.1" level="project" />
     <orderEntry type="library" name="commons-codec-1.9" level="project" />
     <orderEntry type="library" name="commons-io-2.4" level="project" />
+    <orderEntry type="module" module-name="edu.oregonstate.cope.eclipse.operations" />
+    <orderEntry type="module" module-name="edu.oregonstate.cope.eclipse.ASTInference" />
   </component>
 </module>
 

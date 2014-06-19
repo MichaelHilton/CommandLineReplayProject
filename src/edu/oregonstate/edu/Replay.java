@@ -1,8 +1,9 @@
 package edu.oregonstate.edu;
 
 
+import edu.illinois.codingtracker.operations.UserOperation;
+import edu.oregonstate.cope.eclipse.astinference.ast.ASTInferencerFacade;
 import org.apache.commons.codec.binary.Base64;
-
 import org.apache.commons.io.FilenameUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -90,8 +91,21 @@ public class Replay {
             currLine = currLine.replace("$@$", "");
             JSONObject curjObj = parseJSONString(currLine);
             if(curjObj!= null){
-                System.out.println(curjObj.toString());
-                dispatchJSON(curjObj);
+
+
+                UserOperation currentUserOperation = null;
+                ASTInferencerFacade astInferencer = ASTInferencerFacade.getInstance();
+
+//                //AST Infer changes
+
+                astInferencer.beforeDocumentChanged(currentUserOperation);
+//
+//                astInferencer.flushCurrentTextChanges(currentUserOperation);
+//                astInferencer.handleResourceOperation(currentUserOperation);
+//
+//
+//                System.out.println(curjObj.toString());
+//                dispatchJSON(curjObj);
 
             }
 

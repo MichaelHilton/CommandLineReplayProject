@@ -1,0 +1,1 @@
+$@${"timestamp":"1400870183920","text":"import static org.junit.Assert.*;\n\nimport org.junit.Test;\n\n\npublic class MFTest {\n\n\t@Test\n\tpublic void test() {\n\t\tfail(\"Not yet implemented\");\n\t}\n\n}\n","entityAddress":"\/MineFieldKata\/src\/MFTest.java","IDE":"eclipse","eventType":"resourceAdded"}
