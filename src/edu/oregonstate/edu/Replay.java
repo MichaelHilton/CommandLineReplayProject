@@ -1,6 +1,7 @@
 package edu.oregonstate.edu;
 
 
+import edu.illinois.codingtracker.operations.OperationDeserializer;
 import edu.illinois.codingtracker.operations.UserOperation;
 import edu.oregonstate.cope.eclipse.astinference.ast.ASTInferencerFacade;
 import org.apache.commons.codec.binary.Base64;
@@ -78,11 +79,39 @@ public class Replay {
         return false;
     }
 
-    public void replayFile(String fileName) {
+    public void replayFile(String fileName)  {
 //        if(replayDir.length()>0){
 //            fileName = replayDir + "/"+ fileName;
 //        }
+
+
         List<String> replayFileContents = getFileContentsList(fileName);
+
+
+
+        OperationDeserializer od = new OperationDeserializer("DUMMYPATH");
+        List<UserOperation> uoList = null;
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(fileName));
+            String fileContents =  new String(bytes);
+            //String content = readFile(fileName, Charset.defaultCharset());
+
+            uoList = od.getUserOperations( fileContents );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ASTInferencerFacade astInferencer = ASTInferencerFacade.getInstance();
+
+       for(UserOperation op : uoList){
+
+
+           astInferencer.beforeDocumentChanged(op);
+                astInferencer.flushCurrentTextChanges(op);
+                astInferencer.handleResourceOperation(op,replayDir);
+       }
+
+
+/*
         // iterator loop
         //System.out.println("#1 iterator");
         Iterator<String> iterator = replayFileContents.iterator();
@@ -92,24 +121,14 @@ public class Replay {
             JSONObject curjObj = parseJSONString(currLine);
             if(curjObj!= null){
 
-
-                UserOperation currentUserOperation = null;
-                ASTInferencerFacade astInferencer = ASTInferencerFacade.getInstance();
-
-//                //AST Infer changes
-
-                astInferencer.beforeDocumentChanged(currentUserOperation);
-//
-//                astInferencer.flushCurrentTextChanges(currentUserOperation);
-//                astInferencer.handleResourceOperation(currentUserOperation);
-//
-//
-//                System.out.println(curjObj.toString());
-//                dispatchJSON(curjObj);
+                System.out.println(curjObj.toString());
+                dispatchJSON(curjObj);
 
             }
 
         }
+*/
+
 
        // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
         writeContentsToFile(replayDir + "/intermediateJSON.json",intermediateJSON.toString());
@@ -428,7 +447,7 @@ public class Replay {
      * Unzips the specified zip file to the specified destination directory.
      * Replaces any files in the destination, if they already exist.
      * @param zipFilename the name of the zip file to extract
-     * @param destFilename the directory to unzip to
+     * @param destDirname the directory to unzip to
      * @throws java.io.IOException
      * method from : http://fahdshariff.blogspot.com/2011/08/java-7-working-with-zip-files.html
      */
