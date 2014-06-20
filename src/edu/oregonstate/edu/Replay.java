@@ -111,7 +111,8 @@ public class Replay {
        }
 
 
-/*
+
+/*  I JUST COMMENTED THIS OUT TO SAVE TIME WHILE RUNNING THE AST INFERENCING.  WE MIGHT NEED TO ADD THIS BACK IN LATER
         // iterator loop
         //System.out.println("#1 iterator");
         Iterator<String> iterator = replayFileContents.iterator();
