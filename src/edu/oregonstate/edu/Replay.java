@@ -77,10 +77,54 @@ public class Replay {
         return false;
     }
 
+    private void scrubFile(String fileName) {
+        File f = new File(fileName);
+
+        if (!f.exists()) {
+            throw new IllegalArgumentException("Delete: no such file or directory: " + fileName);
+        }
+        if (!f.canWrite()) {
+            throw new IllegalArgumentException("Delete: write protected: " + fileName);
+        }
+        if (f.isDirectory()) {
+            String[] files = f.list();
+            if (files.length > 0) {
+                throw new IllegalArgumentException("Delete: directory not empty: " + fileName);
+            }
+        }
+        boolean success = f.delete();
+        if (!success) {
+            throw new IllegalArgumentException("Delete: deletion failed");
+        }
+    }
+
+    private void cleanBuildDir(String directoryName, String replayFile) {
+        File directory = new File(directoryName);
+        File[] fList = directory.listFiles();
+
+        for (File file : fList) {
+            if (file.isFile()) {
+                File dataFile = new File(replayFile);
+
+                if (dataFile.getName().equals(file.getName())) {
+                    System.out.println("  keep:\t\t" + file.getName());
+                } else {
+                    System.out.println("  remove:\t" + file.getName());
+                    scrubFile(file.getAbsolutePath());
+                }
+            } else if (file.isDirectory()) {
+                System.out.println(file.getAbsolutePath());
+                cleanBuildDir(file.getAbsolutePath(), replayFile);
+                scrubFile(file.getAbsolutePath());
+            }
+        }
+    }
+
     public void replayFile(String fileName) {
-//        if(replayDir.length()>0){
-//            fileName = replayDir + "/"+ fileName;
-//        }
+        // clean all files created on previous builds
+        System.out.println("Cleaning build directory...");
+        cleanBuildDir(replayDir, fileName);
+
         List<String> replayFileContents = getFileContentsList(fileName);
         // iterator loop
         //System.out.println("#1 iterator");
@@ -92,9 +136,7 @@ public class Replay {
             if(curjObj!= null){
                 System.out.println(curjObj.toString());
                 dispatchJSON(curjObj);
-
             }
-
         }
 
        // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
@@ -113,6 +155,7 @@ public class Replay {
         String eventDispatched = "Unknown eventType";
         switch (jObj.get("eventType").toString()) {
             case "fileOpen":
+                System.out.println("fileOpen");
                 openFile(getFileNameFromJSON(jObj));
                 eventDispatched = "fileOpen";
                 break;
@@ -129,18 +172,18 @@ public class Replay {
                 System.out.println("testRun");
                 break;
             case "FileInit":
-                System.out.println("testRun");
+                System.out.println("FileInit");
                 break;
             case "resourceAdded":
                 System.out.println("resourceAdded");
                 addResource(jObj);
                 break;
             case "resourceRemoved":
-                System.out.println("resourceAdded");
+                System.out.println("resourceRemoved");
                 removeResource(jObj);
                 break;
             case "refresh":
-                System.out.println("resourceAdded");
+                System.out.println("refresh");
                 refresh(jObj);
                 break;
             case "refactoringLaunch":
@@ -259,6 +302,7 @@ public class Replay {
 
     public void openFile(String fileName) {
         String fileContents = "";
+
         if(!isFileOpen(fileName)){
             fileContents = readFile(fileName);
             OpenFile of = new OpenFile(fileName,fileContents);
