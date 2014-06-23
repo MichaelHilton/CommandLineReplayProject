@@ -2,7 +2,10 @@
   <library name="json-simple-1.1.1">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/json-simple-1.1.1.jar!/" />
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/libs/diffutils-1.2.1.jar!/" />
+=======
+>>>>>>> 6f5387f5cfa96c75f2636358268f27f0bd866164
     </CLASSES>
     <JAVADOC />
     <SOURCES />

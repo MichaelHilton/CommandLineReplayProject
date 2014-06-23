@@ -246,6 +246,9 @@ public class Replay {
 
         String fileName = jObj.get("entityAddress").toString();
 
+        if (fileName.charAt(0) == '/') {
+            fileName = fileName.substring(1);
+        }
         fileName = replayDir + "/" + fileName;
 
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
@@ -292,7 +295,7 @@ public class Replay {
 
     private void setFileContents(String fileName, String newFileContents) {
         for (int i = 0; i < allOpenFiles.size(); i++) {
-            if(fileName.equals(allOpenFiles.get(i).getFileName())){
+            if(allOpenFiles.get(i).getFileName().contains(fileName)){
                 OpenFile of = allOpenFiles.get(i);
                 of.setContents(newFileContents);
                 allOpenFiles.set(i,of);

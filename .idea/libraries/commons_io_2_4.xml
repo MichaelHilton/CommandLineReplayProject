@@ -2,8 +2,11 @@
   <library name="commons-io-2.4">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/commons-io-2.4.jar!/" />
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/libs/diffutils-1.2.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/json-simple-1.1.1.jar!/" />
+=======
+>>>>>>> 6f5387f5cfa96c75f2636358268f27f0bd866164
     </CLASSES>
     <JAVADOC />
     <SOURCES />

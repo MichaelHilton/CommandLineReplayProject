@@ -8,11 +8,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+<<<<<<< HEAD
     <orderEntry type="library" name="commons-io-2.4" level="project" />
     <orderEntry type="library" name="commons-codec-1.9" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="diffutils-1.2.1" level="project" />
     <orderEntry type="library" name="junit" level="project" />
+=======
+    <orderEntry type="library" name="junit-4.11" level="project" />
+    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
+    <orderEntry type="library" name="diffutils-1.2.1" level="project" />
+    <orderEntry type="library" name="commons-codec-1.9" level="project" />
+    <orderEntry type="library" name="commons-io-2.4" level="project" />
+>>>>>>> 6f5387f5cfa96c75f2636358268f27f0bd866164
   </component>
 </module>
 
