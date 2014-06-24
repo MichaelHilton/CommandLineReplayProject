@@ -8,5 +8,8 @@ libs/commons-codec-1.9/*.txt
 .idea/workspace.xml
 .idea/tasks.xml
 
+#Eclipse specific things
+.settings
+
 #Ignore Local Json Folder
 JsonResults/
