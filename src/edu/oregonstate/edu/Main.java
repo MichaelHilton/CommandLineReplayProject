@@ -16,7 +16,5 @@ public class Main {
             r.unzipInitialState(args[1]);
         }
         r.replayFile(args[0]);
-        r.closeAllFiles();
-
     }
 }

@@ -4,6 +4,7 @@ package edu.oregonstate.edu;
 import org.apache.commons.codec.binary.Base64;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -32,10 +33,12 @@ public class Replay {
     protected List<OpenFile> allOpenFiles;
     String replayDir = "";
     private final JSONArray intermediateJSON;
+    private List<String> allProjectDirectories;
 
     public Replay() {
         this.allOpenFiles = new ArrayList<OpenFile>();
         intermediateJSON = new JSONArray();
+        allProjectDirectories = new ArrayList<String>();
     }
 
     String insertString(String s, String c, int i) {
@@ -77,57 +80,22 @@ public class Replay {
         return false;
     }
 
-    private void scrubFile(String fileName) {
-        File f = new File(fileName);
-
-        if (!f.exists()) {
-            throw new IllegalArgumentException("Delete: no such file or directory: " + fileName);
-        }
-        if (!f.canWrite()) {
-            throw new IllegalArgumentException("Delete: write protected: " + fileName);
-        }
-        if (f.isDirectory()) {
-            String[] files = f.list();
-            if (files.length > 0) {
-                throw new IllegalArgumentException("Delete: directory not empty: " + fileName);
-            }
-        }
-        boolean success = f.delete();
-        if (!success) {
-            throw new IllegalArgumentException("Delete: deletion failed");
-        }
-    }
-
-    private void cleanBuildDir(String directoryName, String replayFile) {
-        File directory = new File(directoryName);
-        File[] fList = directory.listFiles();
-
-        for (File file : fList) {
-            if (file.isFile()) {
-                File dataFile = new File(replayFile);
-
-                if (dataFile.getName().equals(file.getName())) {
-                    System.out.println("  keep:\t\t" + file.getName());
-                } else {
-                    System.out.println("  remove:\t" + file.getName());
-                    scrubFile(file.getAbsolutePath());
-                }
-            } else if (file.isDirectory()) {
-                System.out.println(file.getAbsolutePath());
-                cleanBuildDir(file.getAbsolutePath(), replayFile);
-                scrubFile(file.getAbsolutePath());
+    private void cleanProjectDirs() {
+        System.out.println("Cleaning project directories...");
+        for (String projectName : allProjectDirectories) {
+            try {
+                final File project = new File(projectName);
+                FileUtils.cleanDirectory(project);
+                FileUtils.forceDelete(project);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public void replayFile(String fileName) {
-        // clean all files created on previous builds
-        System.out.println("Cleaning build directory...");
-        cleanBuildDir(replayDir, fileName);
-
         List<String> replayFileContents = getFileContentsList(fileName);
         // iterator loop
-        //System.out.println("#1 iterator");
         Iterator<String> iterator = replayFileContents.iterator();
         while (iterator.hasNext()) {
             String currLine = iterator.next();
@@ -141,7 +109,10 @@ public class Replay {
 
        // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
         writeContentsToFile(replayDir + "/intermediateJSON.json",intermediateJSON.toString());
-        //System.out.println(intermediateJSON);
+
+        // close and clean all temporary directories and files
+        closeAllFiles();
+        cleanProjectDirs();
     }
 
     public JSONObject parseJSONString(String jsonString) {
@@ -243,13 +214,19 @@ public class Replay {
     private void addResource(JSONObject jObj) {
         System.out.println(jObj);
 
-
         String fileName = jObj.get("entityAddress").toString();
 
         if (fileName.charAt(0) == '/') {
             fileName = fileName.substring(1);
         }
         fileName = replayDir + "/" + fileName;
+
+        if (fileName.endsWith(".project")) {
+            String[] filePath = fileName.split("/");
+            String parentDir = fileName.substring(0, fileName.lastIndexOf('/'));
+            //(String parentDir = filePath[filePath.length - 2];
+            allProjectDirectories.add(parentDir);
+        }
 
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
             byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
