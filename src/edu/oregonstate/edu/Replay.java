@@ -222,10 +222,7 @@ public class Replay {
         fileName = replayDir + "/" + fileName;
 
         if (fileName.endsWith(".project")) {
-            String[] filePath = fileName.split("/");
-            String parentDir = fileName.substring(0, fileName.lastIndexOf('/'));
-            //(String parentDir = filePath[filePath.length - 2];
-            allProjectDirectories.add(parentDir);
+            allProjectDirectories.add(Paths.get(fileName).getParent().toString());
         }
 
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
