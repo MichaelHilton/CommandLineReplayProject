@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/commons-codec-1.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/commons-io-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/commons-net-3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/commons-vfs2-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/jsch-0.1.50.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/logback-classic-1.0.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/logback-core-1.0.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/quartz-1.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/slf4j-api-1.7.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

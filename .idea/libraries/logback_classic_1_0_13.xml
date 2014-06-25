@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="logback-classic-1.0.13">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/logback-classic-1.0.13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

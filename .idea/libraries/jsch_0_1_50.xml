@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jsch-0.1.50">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Mihai_eclipseReplayer_Clean/recorderInfra/edu.oregonstate.cope.thirdparty/jsch-0.1.50.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
