@@ -3,6 +3,9 @@ package edu.oregonstate.edu;
 public class Main {
 
     public static void main(String[] args) {
+        // args[0] - replaySourceFile
+        // args[1] - ZipSourceFile
+        // args[2] - JsonDestinationFile
 
         if(args.length < 3){
             System.out.println("Usage: java CommandLineReplay ReplaySourceFile ZipSourceFile JsonDestinationFile");
