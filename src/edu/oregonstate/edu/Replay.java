@@ -4,6 +4,7 @@ package edu.oregonstate.edu;
 import org.apache.commons.codec.binary.Base64;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -26,16 +27,18 @@ import java.util.*;
  */
 public class Replay {
 
-
+    public static final boolean LOGGING = true;
     public static final List<String> knownTextFiles = Arrays.asList(new String[]{"txt", "java", "xml", "mf", "c", "cpp", "c", "h"});
 
     protected List<OpenFile> allOpenFiles;
     String replayDir = "";
     private final JSONArray intermediateJSON;
+    public List<String> allProjectDirectories;
 
     public Replay() {
         this.allOpenFiles = new ArrayList<OpenFile>();
         intermediateJSON = new JSONArray();
+        allProjectDirectories = new ArrayList<String>();
     }
 
     String insertString(String s, String c, int i) {
@@ -77,29 +80,42 @@ public class Replay {
         return false;
     }
 
+    public void cleanProjectDirs() {
+        if (LOGGING) System.out.println("Cleaning project directories...");
+
+        for (String projectName : allProjectDirectories) {
+            if (LOGGING) System.out.println("projectName: " + projectName);
+            try {
+                final File project = new File(projectName);
+                FileUtils.cleanDirectory(project);
+                FileUtils.forceDelete(project);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void replayFile(String fileName) {
-//        if(replayDir.length()>0){
-//            fileName = replayDir + "/"+ fileName;
-//        }
         List<String> replayFileContents = getFileContentsList(fileName);
+
         // iterator loop
-        //System.out.println("#1 iterator");
         Iterator<String> iterator = replayFileContents.iterator();
         while (iterator.hasNext()) {
             String currLine = iterator.next();
             currLine = currLine.replace("$@$", "");
             JSONObject curjObj = parseJSONString(currLine);
             if(curjObj!= null){
-                System.out.println(curjObj.toString());
+                if (LOGGING) System.out.println(curjObj.toString());
                 dispatchJSON(curjObj);
-
             }
-
         }
 
        // Files.write(replayDir + "/intermediateJSON.txt", currFileContents.getBytes(),StandardOpenOption.CREATE);
         writeContentsToFile(replayDir + "/intermediateJSON.json",intermediateJSON.toString());
-        //System.out.println(intermediateJSON);
+
+        // close and clean all temporary directories and files
+        closeAllFiles();
+        cleanProjectDirs();
     }
 
     public JSONObject parseJSONString(String jsonString) {
@@ -113,8 +129,9 @@ public class Replay {
         String eventDispatched = "Unknown eventType";
         switch (jObj.get("eventType").toString()) {
             case "fileOpen":
-                openFile(getFileNameFromJSON(jObj));
                 eventDispatched = "fileOpen";
+                openFile(getFileNameFromJSON(jObj));
+                if (LOGGING) System.out.println("fileOpen");
                 break;
             case "fileClose":
                 eventDispatched = "fileClose";
@@ -126,50 +143,61 @@ public class Replay {
                 jObj.put("currText",currText);
                 break;
             case "testRun":
-                System.out.println("testRun");
+                eventDispatched = "testRun";
+                if (LOGGING) System.out.println("testRun");
                 break;
             case "FileInit":
-                System.out.println("testRun");
+                eventDispatched = "FileInit";
+                if (LOGGING) System.out.println("FileInit");
                 break;
             case "resourceAdded":
-                System.out.println("resourceAdded");
+                eventDispatched = "resourceAdded";
                 addResource(jObj);
+                if (LOGGING) System.out.println("resourceAdded");
                 break;
             case "resourceRemoved":
-                System.out.println("resourceAdded");
+                eventDispatched = "resourceRemoved";
                 removeResource(jObj);
+                if (LOGGING) System.out.println("resourceRemoved");
                 break;
             case "refresh":
-                System.out.println("resourceAdded");
+                eventDispatched = "refresh";
                 refresh(jObj);
+                if (LOGGING) System.out.println("refresh");
                 break;
             case "refactoringLaunch":
-                System.out.println("refactoringStart");
+                eventDispatched = "refactoringLaunch";
+                if (LOGGING) System.out.println("refactoringStart");
                 break;
             case "refactoringEnd":
-                System.out.println("refactoringEnd");
+                eventDispatched = "refactoringEnd";
+                if (LOGGING) System.out.println("refactoringEnd");
                 break;
             case "normalLaunch":
-                System.out.println("NormalLaunch");
+                eventDispatched = "normalLaunch";
+                if (LOGGING) System.out.println("NormalLaunch");
                 break;
             case "launchEnd":
-                System.out.println("launchEnd");
+                eventDispatched = "launchEnd";
+                if (LOGGING) System.out.println("launchEnd");
                 break;
             case "snapshot":
-                System.out.println("snapshot");
+                eventDispatched = "snapshot";
+                if (LOGGING) System.out.println("snapshot");
                 break;
             case "fileSave":
-                System.out.println("fileSave");
+                eventDispatched = "fileSave";
+                if (LOGGING) System.out.println("fileSave");
                 break;
             case "copy":
-                System.out.println("copy");
+                eventDispatched = "copy";
+                if (LOGGING) System.out.println("copy");
                 break;
             default:
                 throw new RuntimeException("Unknown eventType");
         }
 
         intermediateJSON.add(jObj);
-
 
         return eventDispatched;  //To change body of created methods use File | Settings | File Templates.
     }
@@ -180,7 +208,6 @@ public class Replay {
     }
 
     private void refresh(JSONObject jObj) {
-        System.out.println(jObj);
         //byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
         //System.out.println(new String(b));
         //setFileContents(jObj.get("entityAddress").toString(),new String(b));
@@ -188,7 +215,6 @@ public class Replay {
         String fileName = jObj.get("entityAddress").toString();
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
             byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
-            System.out.println(new String(b));
             setFileContents(jObj.get("entityAddress").toString(),new String(b));
         }else{
             setFileContents(jObj.get("entityAddress").toString(),jObj.get("text").toString());
@@ -198,9 +224,6 @@ public class Replay {
     }
 
     private void addResource(JSONObject jObj) {
-        System.out.println(jObj);
-
-
         String fileName = jObj.get("entityAddress").toString();
 
         if (fileName.charAt(0) == '/') {
@@ -208,16 +231,18 @@ public class Replay {
         }
         fileName = replayDir + "/" + fileName;
 
+        if (fileName.endsWith(".project")) {
+            allProjectDirectories.add(Paths.get(fileName).getParent().toString());
+        }
+
         if (!knownTextFiles.contains(FilenameUtils.getExtension(fileName))){
-            byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
-            System.out.println(new String(b));
+            byte[] b = Base64.decodeBase64(jObj.get("text").toString());
             OpenFile of = new OpenFile(fileName,new String(b));
             allOpenFiles.add(of);
         }else{
             OpenFile of = new OpenFile(fileName,jObj.get("text").toString());
             allOpenFiles.add(of);
         }
-
     }
 
 
@@ -262,6 +287,7 @@ public class Replay {
 
     public void openFile(String fileName) {
         String fileContents = "";
+
         if(!isFileOpen(fileName)){
             fileContents = readFile(fileName);
             OpenFile of = new OpenFile(fileName,fileContents);
@@ -278,19 +304,15 @@ public class Replay {
                 if(!f.getParentFile().exists()) {
                     f.getParentFile().mkdirs();
                 }
-
                 f.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         try {
-
 //            byte[] b = Base64.decodeBase64(jObj.get("text").toString()) ;
 //            System.out.println(new String(b));
 //            setFileContents(jObj.get("entityAddress").toString(),new String(b));
-
-
 
             byte[] encoded = Files.readAllBytes(Paths.get(fileName));
             byte[] decoded = Base64.decodeBase64(encoded);
@@ -304,7 +326,6 @@ public class Replay {
 
     public boolean isFileOpen(String fileName) {
         boolean isFileOpen = false;
-        //System.out.println("Size"+allOpenFiles.size());
         for (int i = 0; i < allOpenFiles.size(); i++) {
             if(fileName.equals(allOpenFiles.get(i).getFileName())){
                 isFileOpen = true;
@@ -414,7 +435,7 @@ public class Replay {
      * Unzips the specified zip file to the specified destination directory.
      * Replaces any files in the destination, if they already exist.
      * @param zipFilename the name of the zip file to extract
-     * @param destFilename the directory to unzip to
+     * @param destDirname the directory to unzip to
      * @throws java.io.IOException
      * method from : http://fahdshariff.blogspot.com/2011/08/java-7-working-with-zip-files.html
      */
@@ -424,7 +445,6 @@ public class Replay {
         final Path destDir = Paths.get(destDirname);
         //if the destination doesn't exist, create it
         if(Files.notExists(destDir)){
-            //System.out.println(destDir + " does not exist. Creating...");
             Files.createDirectories(destDir);
         }
 
