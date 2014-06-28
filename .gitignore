@@ -13,3 +13,6 @@ libs/commons-codec-1.9/*.txt
 
 #Ignore Local Json Folder
 JsonResults/
+
+#Java
+bin/
