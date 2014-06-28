@@ -1,0 +1,3 @@
+[submodule "eclipseReplayer"]
+	path = eclipseReplayer
+	url = git@github.com:cdmihai/eclipseReplayer.git
