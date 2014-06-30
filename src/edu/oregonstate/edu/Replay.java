@@ -10,6 +10,7 @@ import org.json.simple.JSONValue;
 
 import edu.illinois.codingtracker.operations.OperationDeserializer;
 import edu.illinois.codingtracker.operations.UserOperation;
+import edu.oregonstate.cope.eclipse.astinference.ast.ASTInferencerFacade;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
+
+import junit.framework.AssertionFailedError;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,6 +40,7 @@ public class Replay {
     private final JSONArray intermediateJSON;
     public List<String> allProjectDirectories;
 	private OperationDeserializer operationDeserializer;
+	private ASTInferencerFacade inferencer;
 
     public Replay() {
         this.allOpenFiles = new ArrayList<OpenFile>();
@@ -101,7 +105,7 @@ public class Replay {
     public void replayFile(String fileName) {
         List<String> replayFileContents = getFileContentsList(fileName);
 
-        operationDeserializer = new OperationDeserializer(fileName);
+        initASTInferencerState(fileName);
         
         // iterator loop
         Iterator<String> iterator = replayFileContents.iterator();
@@ -123,6 +127,13 @@ public class Replay {
         cleanProjectDirs();
     }
 
+	private void initASTInferencerState(String fileName) {
+		operationDeserializer = new OperationDeserializer(fileName);
+		
+        inferencer = ASTInferencerFacade.getInstance();
+        inferencer.setRecordingDirectory(new File(replayDir));
+	}
+
     public JSONObject parseJSONString(String jsonString) {
         Object obj = JSONValue.parse(jsonString);
         JSONObject jObj = (JSONObject) obj;
@@ -135,6 +146,8 @@ public class Replay {
         String eventType = jObj.get("eventType").toString();
         
         UserOperation userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
+        
+        
         
 		switch (eventType) {
             case "fileOpen":
