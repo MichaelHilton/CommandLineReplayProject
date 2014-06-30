@@ -144,22 +144,25 @@ public class Replay {
     public String dispatchJSON(JSONObject jObj) {
         String eventDispatched = "Unknown eventType";
         String eventType = jObj.get("eventType").toString();
-        String filePath = getFileNameFromJSON(jObj);
+        boolean canInferAST = canInferAST(jObj);
+        UserOperation userOperation = null;
         
-        UserOperation userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
-        
-        String fileContentsBeforeChange = getFileContentsString(filePath);
-		inferencer.beforeDocumentChanged(userOperation, fileContentsBeforeChange, filePath);
+		if (canInferAST) {
+        	userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
+        	
+        	String fileContentsBeforeChange = getFileContentsString(getFileNameFromJSON(jObj));
+        	inferencer.beforeDocumentChanged(userOperation, fileContentsBeforeChange, getFileNameFromJSON(jObj));
+		}
         
 		switch (eventType) {
             case "fileOpen":
                 eventDispatched = "fileOpen";
-                openFile(filePath);
+                openFile(getFileNameFromJSON(jObj));
                 if (LOGGING) System.out.println("fileOpen");
                 break;
             case "fileClose":
                 eventDispatched = "fileClose";
-                closeFile(filePath);
+                closeFile(getFileNameFromJSON(jObj));
                 break;
             case "textChange":
                 eventDispatched = "textChange";
@@ -221,15 +224,21 @@ public class Replay {
                 throw new RuntimeException("Unknown eventType");
         }
 		
-		inferencer.flushCurrentTextChanges(userOperation);
-		inferencer.handleResourceOperation(userOperation);
+		if (canInferAST) {
+			inferencer.flushCurrentTextChanges(userOperation);
+			inferencer.handleResourceOperation(userOperation);
+		}
 
         intermediateJSON.add(jObj);
 
         return eventDispatched;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    private void removeResource(JSONObject jObj) {
+    private boolean canInferAST(JSONObject jObj) {
+		return jObj.get("entityAddress") != null;
+	}
+
+	private void removeResource(JSONObject jObj) {
         closeFile(jObj.get("entityAddress").toString());
 
     }
