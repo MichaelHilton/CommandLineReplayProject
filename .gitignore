@@ -7,6 +7,7 @@ libs/commons-codec-1.9/*.txt
 *.swp
 .idea/workspace.xml
 .idea/tasks.xml
+testdata/output/
 
 #Eclipse specific things
 .settings
