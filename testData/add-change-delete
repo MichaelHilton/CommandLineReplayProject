@@ -1,0 +1,41 @@
+
+$@${"eventType":"FileInit"}
+$@${"timestamp":"1390959292","text":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<projectDescription>\n\t<name>P<\/name>\n\t<comment><\/comment>\n\t<projects>\n\t<\/projects>\n\t<buildSpec>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.jdt.core.javabuilder<\/name>\n\t\t\t<arguments>\n\t\t\t<\/arguments>\n\t\t<\/buildCommand>\n\t<\/buildSpec>\n\t<natures>\n\t\t<nature>org.eclipse.jdt.core.javanature<\/nature>\n\t<\/natures>\n<\/projectDescription>\n","entityAddress":"\/P\/.project","IDE":"eclipse","eventType":"resourceAdded"}
+$@${"timestamp":"1390959292","text":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<classpath>\n\t<classpathentry kind=\"src\" path=\"src\"\/>\n\t<classpathentry kind=\"con\" path=\"org.eclipse.jdt.launching.JRE_CONTAINER\/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType\/JavaSE-1.7\"\/>\n\t<classpathentry kind=\"output\" path=\"bin\"\/>\n<\/classpath>\n","entityAddress":"\/P\/.classpath","IDE":"eclipse","eventType":"resourceAdded"}
+$@${"timestamp":"1390959292","text":"eclipse.preferences.version=1\norg.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled\norg.eclipse.jdt.core.compiler.codegen.targetPlatform=1.7\norg.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve\norg.eclipse.jdt.core.compiler.compliance=1.7\norg.eclipse.jdt.core.compiler.debug.lineNumber=generate\norg.eclipse.jdt.core.compiler.debug.localVariable=generate\norg.eclipse.jdt.core.compiler.debug.sourceFile=generate\norg.eclipse.jdt.core.compiler.problem.assertIdentifier=error\norg.eclipse.jdt.core.compiler.problem.enumIdentifier=error\norg.eclipse.jdt.core.compiler.source=1.7\n","entityAddress":"\/P\/.settings\/org.eclipse.jdt.core.prefs","IDE":"eclipse","eventType":"resourceAdded"}
+$@${"timestamp":"1390959302","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileOpen"}
+$@${"timestamp":"1390959302","entityAddress":"\/Users\/mihai\/workspaces\/runtime-EclipseApplication\/.metadata\/.plugins\/edu.oregonstate.cope.eclipse\/P-1390959302320.zip","IDE":"eclipse","eventType":"snapshot"}
+$@${"timestamp":"1390959302","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"resourceAdded"}
+$@${"timestamp":"1390959302","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"refresh"}
+$@${"timestamp":"1390959303","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileOpen"}
+$@${"timestamp":"1390959306","text":"\t\t","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":98}
+$@${"timestamp":"1390959307","text":"i","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":100}
+$@${"timestamp":"1390959307","text":"n","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":101}
+$@${"timestamp":"1390959307","text":"t","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":102}
+$@${"timestamp":"1390959307","text":" ","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":103}
+$@${"timestamp":"1390959308","text":"i","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":104}
+$@${"timestamp":"1390959309","text":" ","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":105}
+$@${"timestamp":"1390959309","text":"=","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":106}
+$@${"timestamp":"1390959309","text":" ","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":107}
+$@${"timestamp":"1390959310","text":"1","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":108}
+$@${"timestamp":"1390959310","text":"0","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":109}
+$@${"timestamp":"1390959311","text":";","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":110}
+$@${"timestamp":"1390959312","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileSave"}
+$@${"timestamp":"1390959312","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\t\tint i = 10;\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"refresh"}
+$@${"timestamp":"1390959314","text":"f","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":1,"eventType":"textChange","offset":104}
+$@${"timestamp":"1390959315","text":"o","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":105}
+$@${"timestamp":"1390959315","text":"o","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":106}
+$@${"timestamp":"1390959315","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileSave"}
+$@${"timestamp":"1390959315","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\t\tint foo = 10;\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"refresh"}
+$@${"timestamp":"1390959334","text":"f","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":3,"eventType":"textChange","offset":100}
+$@${"timestamp":"1390959334","text":"l","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":101}
+$@${"timestamp":"1390959335","text":"o","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":102}
+$@${"timestamp":"1390959335","text":"a","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":103}
+$@${"timestamp":"1390959336","text":"t","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":0,"eventType":"textChange","offset":104}
+$@${"timestamp":"1390959337","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileSave"}
+$@${"timestamp":"1390959337","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\t\tfloat foo = 10;\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"refresh"}
+$@${"timestamp":"1390959344","text":"","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":15,"eventType":"textChange","offset":100}
+$@${"timestamp":"1390959346","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileSave"}
+$@${"timestamp":"1390959346","text":"\npublic class C {\n\n\tpublic static void main(String[] args) {\n\t\t\/\/ TODO Auto-generated method stub\n\t\t\n\t}\n\n}\n","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"refresh"}
+$@${"timestamp":"1390959354","text":"","changeOrigin":"user","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","len":85,"eventType":"textChange","offset":19}
+$@${"timestamp":"1390959355","entityAddress":"\/P\/src\/C.java","IDE":"eclipse","eventType":"fileSave"}
