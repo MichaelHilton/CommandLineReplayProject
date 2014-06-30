@@ -144,20 +144,22 @@ public class Replay {
     public String dispatchJSON(JSONObject jObj) {
         String eventDispatched = "Unknown eventType";
         String eventType = jObj.get("eventType").toString();
+        String filePath = getFileNameFromJSON(jObj);
         
         UserOperation userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
         
-        
+        String fileContentsBeforeChange = getFileContentsString(filePath);
+		inferencer.beforeDocumentChanged(userOperation, fileContentsBeforeChange, filePath);
         
 		switch (eventType) {
             case "fileOpen":
                 eventDispatched = "fileOpen";
-                openFile(getFileNameFromJSON(jObj));
+                openFile(filePath);
                 if (LOGGING) System.out.println("fileOpen");
                 break;
             case "fileClose":
                 eventDispatched = "fileClose";
-                closeFile(getFileNameFromJSON(jObj));
+                closeFile(filePath);
                 break;
             case "textChange":
                 eventDispatched = "textChange";
@@ -218,6 +220,9 @@ public class Replay {
             default:
                 throw new RuntimeException("Unknown eventType");
         }
+		
+		inferencer.flushCurrentTextChanges(userOperation);
+		inferencer.handleResourceOperation(userOperation);
 
         intermediateJSON.add(jObj);
 
