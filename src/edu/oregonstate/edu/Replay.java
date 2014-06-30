@@ -2,12 +2,14 @@ package edu.oregonstate.edu;
 
 
 import org.apache.commons.codec.binary.Base64;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import edu.illinois.codingtracker.operations.OperationDeserializer;
+import edu.illinois.codingtracker.operations.UserOperation;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class Replay {
     String replayDir = "";
     private final JSONArray intermediateJSON;
     public List<String> allProjectDirectories;
+	private OperationDeserializer operationDeserializer;
 
     public Replay() {
         this.allOpenFiles = new ArrayList<OpenFile>();
@@ -98,6 +101,8 @@ public class Replay {
     public void replayFile(String fileName) {
         List<String> replayFileContents = getFileContentsList(fileName);
 
+        operationDeserializer = new OperationDeserializer(fileName);
+        
         // iterator loop
         Iterator<String> iterator = replayFileContents.iterator();
         while (iterator.hasNext()) {
@@ -127,7 +132,11 @@ public class Replay {
 
     public String dispatchJSON(JSONObject jObj) {
         String eventDispatched = "Unknown eventType";
-        switch (jObj.get("eventType").toString()) {
+        String eventType = jObj.get("eventType").toString();
+        
+        UserOperation userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
+        
+		switch (eventType) {
             case "fileOpen":
                 eventDispatched = "fileOpen";
                 openFile(getFileNameFromJSON(jObj));
