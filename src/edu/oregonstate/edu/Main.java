@@ -8,16 +8,23 @@ public class Main {
         // args[2] - JsonDestinationFile
 
         if(args.length < 3){
-            System.out.println("Usage: java CommandLineReplay ReplaySourceFile ZipSourceFile JsonDestinationFile");
+            System.out.println("Usage: java CommandLineReplay ReplaySourceFile ZipSourceFile JsonOutputDir");
             return;
         }
+        
+        String replaySourceFile = args[0];
+        String zipSourceFile = args[1];
+        String jsonOutputDir = args[2];
+        
         Replay r = new Replay();
-        r.setDir(args[2]);
-        if(args[1].equals("NONE")) {
+        r.setDir(jsonOutputDir);
+        
+        if(zipSourceFile.equals("NONE")) {
             System.out.println("NO ZIP");
         } else {
             r.unzipInitialState(args[1]);
         }
-        r.replayFile(args[0]);
+        
+        r.replayFile(replaySourceFile);
     }
 }
