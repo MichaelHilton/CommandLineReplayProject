@@ -3,6 +3,18 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CommandLineReplayProject.iml" filepath="$PROJECT_DIR$/CommandLineReplayProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.clientrecorder/edu.oregonstate.cope.clientrecorder.iml" filepath="$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.clientrecorder/edu.oregonstate.cope.clientrecorder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.clientrecorder.tests/edu.oregonstate.cope.clientrecorder.tests.iml" filepath="$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.clientrecorder.tests/edu.oregonstate.cope.clientrecorder.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.codingtracker.tests/edu.oregonstate.cope.codingtracker.tests.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.codingtracker.tests/edu.oregonstate.cope.codingtracker.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.ASTInference/edu.oregonstate.cope.eclipse.ASTInference.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.ASTInference/edu.oregonstate.cope.eclipse.ASTInference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.ASTInference.tests/edu.oregonstate.cope.eclipse.ASTInference.tests.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.ASTInference.tests/edu.oregonstate.cope.eclipse.ASTInference.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.compare.helpers/edu.oregonstate.cope.eclipse.compare.helpers.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.compare.helpers/edu.oregonstate.cope.eclipse.compare.helpers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.helpers/edu.oregonstate.cope.eclipse.helpers.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.helpers/edu.oregonstate.cope.eclipse.helpers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.jdt.project.manipulation/edu.oregonstate.cope.eclipse.jdt.project.manipulation.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.jdt.project.manipulation/edu.oregonstate.cope.eclipse.jdt.project.manipulation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.operations/edu.oregonstate.cope.eclipse.operations.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.operations/edu.oregonstate.cope.eclipse.operations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.replaying/edu.oregonstate.cope.eclipse.replaying.iml" filepath="$PROJECT_DIR$/eclipseReplayer/edu.oregonstate.cope.eclipse.replaying/edu.oregonstate.cope.eclipse.replaying.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.filesender/edu.oregonstate.cope.filesender.iml" filepath="$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.filesender/edu.oregonstate.cope.filesender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.thirdparty/edu.oregonstate.cope.thirdparty.iml" filepath="$PROJECT_DIR$/eclipseReplayer/recorderInfra/edu.oregonstate.cope.thirdparty/edu.oregonstate.cope.thirdparty.iml" />
     </modules>
   </component>
 </project>
