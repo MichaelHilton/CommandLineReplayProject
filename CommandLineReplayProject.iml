@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="edu.oregonstate.cope.eclipse.operations" />
     <orderEntry type="module" module-name="edu.oregonstate.cope.eclipse.ASTInference" />
     <orderEntry type="module" module-name="edu.oregonstate.cope.eclipse.ASTInference.tests" scope="TEST" />
+    <orderEntry type="library" name="changedistiller-0.0.1-SNAPSHOT-jar-with-dependencies1" level="application" />
   </component>
 </module>
 
