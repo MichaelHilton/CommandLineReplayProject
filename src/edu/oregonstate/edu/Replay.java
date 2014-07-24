@@ -1,16 +1,16 @@
 package edu.oregonstate.edu;
 
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.FileUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import edu.illinois.codingtracker.operations.OperationDeserializer;
 import edu.illinois.codingtracker.operations.UserOperation;
 import edu.oregonstate.cope.eclipse.astinference.ast.ASTInferencerFacade;
+import edu.oregonstate.cope.eclipse.astinference.ast.inferencing.InferredAST;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,6 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
-import junit.framework.AssertionFailedError;
-
 /**
  * Created with IntelliJ IDEA.
  * User: michaelhilton
@@ -32,7 +30,7 @@ import junit.framework.AssertionFailedError;
  */
 public class Replay {
 
-    public static final boolean LOGGING = true;
+    public static final boolean LOGGING = false;
     public static final List<String> knownTextFiles = Arrays.asList(new String[]{"txt", "java", "xml", "mf", "c", "cpp", "c", "h"});
 
     protected List<OpenFile> allOpenFiles;
@@ -146,12 +144,20 @@ public class Replay {
         String eventType = jObj.get("eventType").toString();
         boolean canInferAST = canInferAST(jObj);
         UserOperation userOperation = null;
+        InferredAST iASTObj = new InferredAST();
         
 		if (canInferAST) {
         	userOperation = operationDeserializer.buildUserOperation(jObj, eventType);
-        	
-        	String fileContentsBeforeChange = getFileContentsString(getFileNameFromJSON(jObj));
-        	inferencer.beforeDocumentChanged(userOperation, fileContentsBeforeChange, getFileNameFromJSON(jObj));
+        	if(userOperation != null){
+                String fileContentsBeforeChange = getFileContentsString(getFileNameFromJSON(jObj));
+                inferencer.beforeDocumentChanged(userOperation, fileContentsBeforeChange, getFileNameFromJSON(jObj),iASTObj);
+                if(iASTObj.getInferredAST() != null){
+                    System.out.println("FOUND AST");
+                    JSONObject inferredAST = new JSONObject();
+                    inferredAST.put("InferredAST",iASTObj.getInferredAST());
+                    intermediateJSON.add(inferredAST);
+                }
+            }
 		}
         
 		switch (eventType) {
@@ -167,7 +173,7 @@ public class Replay {
             case "textChange":
                 eventDispatched = "textChange";
                 String currText = textChange(jObj);
-                jObj.put("currText",currText);
+                //jObj.put("currText",currText);
                 break;
             case "testRun":
                 eventDispatched = "testRun";
@@ -223,9 +229,10 @@ public class Replay {
             default:
                 throw new RuntimeException("Unknown eventType");
         }
-		
+
 		if (canInferAST) {
-			inferencer.flushCurrentTextChanges(userOperation);
+
+			inferencer.flushCurrentTextChanges(userOperation,iASTObj);
 			inferencer.handleResourceOperation(userOperation);
 		}
 
