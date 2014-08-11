@@ -1,4 +1,4 @@
-package edu.oregonstate.edu.Replayer;
+package edu.oregonstate.edu;
 
 /**
  * Created with IntelliJ IDEA.
